@@ -9,15 +9,23 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { personalInfo } from '@/data/portfolio';
 import {
-  Mail, Phone, MapPin, Github, Linkedin, Twitter,
-  Send, Instagram, ArrowUpRight, Sparkles,
+  Mail, MapPin, Github, Linkedin, Twitter,
+  Send, Instagram, ArrowUpRight, Sparkles, Tag,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ButtonLoader } from '@/components/ui/loading-spinner';
 import { useMessages } from '@/hooks/useMessages';
 
-/* ── Validation ─────────────────────────────────────────────── */
+/* ── Service options — used as optional message tags ─────────── */
+const SERVICE_OPTIONS = [
+  'Web Development',
+  'Cybersecurity Consulting',
+  'API Development',
+  'DevOps & Deployment',
+  'Other / General Inquiry',
+] as const;
 
+/* ── Validation ─────────────────────────────────────────────── */
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
@@ -27,7 +35,6 @@ const contactSchema = z.object({
 type ContactForm = z.infer<typeof contactSchema>;
 
 /* ── Helpers ────────────────────────────────────────────────── */
-
 const fieldClass = (hasError: boolean) =>
   cn(
     'h-12 rounded-xl px-4 text-sm',
@@ -40,7 +47,7 @@ const fieldClass = (hasError: boolean) =>
 
 const textareaClass = (hasError: boolean) =>
   cn(
-    'rounded-xl px-4 py-3 text-sm min-h-[160px] resize-none',
+    'rounded-xl px-4 py-3 text-sm min-h-[140px] resize-none',
     'bg-white/80 dark:bg-white/5 text-foreground placeholder:text-muted-foreground/60',
     'border border-border/40 dark:border-white/10',
     'focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:border-primary/30 focus-visible:outline-none',
@@ -56,9 +63,9 @@ const SOCIALS = [
 ] as const;
 
 /* ── Component ──────────────────────────────────────────────── */
-
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedService, setSelectedService] = useState<string | null>(null);
   const { toast } = useToast();
 
   const {
@@ -73,12 +80,18 @@ const Contact = () => {
   const onSubmit = async (data: ContactForm) => {
     setIsSubmitting(true);
     try {
-      await sendMessage(data as any);
+      // Inject selected service as a context tag at the top of the message body
+      const messageBody = selectedService
+        ? `📌 Service of Interest: ${selectedService}\n\n${data.message}`
+        : data.message;
+
+      await sendMessage({ ...data, message: messageBody } as any);
       toast({
         title: 'Message sent successfully! 🎉',
         description: "Thank you for reaching out. I'll get back to you soon!",
       });
       reset();
+      setSelectedService(null);
     } catch {
       toast({
         title: 'Error sending message',
@@ -90,10 +103,9 @@ const Contact = () => {
     }
   };
 
-  /* ── Contact detail cards ─────────────────────── */
+  /* ── Contact detail cards — email + location only ─── */
   const contactItems = [
     { icon: Mail, label: 'Email', value: personalInfo.email, href: `mailto:${personalInfo.email}` },
-    { icon: Phone, label: 'Phone', value: personalInfo.phone, href: `tel:${personalInfo.phone}` },
     { icon: MapPin, label: 'Location', value: personalInfo.location, href: '#' },
   ];
 
@@ -238,6 +250,8 @@ const Contact = () => {
               <p className="text-muted-foreground text-sm mb-8">I'll get back to you within 24 hours.</p>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+
+                {/* Name + Email */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Name</label>
@@ -260,6 +274,39 @@ const Contact = () => {
                   </div>
                 </div>
 
+                {/* Service of Interest — optional chip selector */}
+                <div>
+                  <label className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+                    <Tag className="w-3 h-3" />
+                    Service of Interest
+                    <span className="normal-case font-normal tracking-normal text-muted-foreground/50 ml-1">— optional</span>
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {SERVICE_OPTIONS.map((svc) => (
+                      <button
+                        key={svc}
+                        type="button"
+                        onClick={() => setSelectedService(prev => prev === svc ? null : svc)}
+                        className={cn(
+                          'px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 cursor-pointer',
+                          selectedService === svc
+                            ? 'bg-primary text-primary-foreground border-primary shadow-sm scale-105'
+                            : 'bg-transparent text-muted-foreground border-border/50 hover:border-primary/40 hover:text-foreground hover:bg-primary/5',
+                        )}
+                      >
+                        {svc}
+                      </button>
+                    ))}
+                  </div>
+                  {selectedService && (
+                    <p className="flex items-center gap-1 text-xs text-primary/70 mt-2.5">
+                      <Tag className="w-3 h-3 shrink-0" />
+                      Tagged in your message as: <span className="font-semibold ml-0.5">{selectedService}</span>
+                    </p>
+                  )}
+                </div>
+
+                {/* Subject */}
                 <div>
                   <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Subject</label>
                   <Input
@@ -270,11 +317,12 @@ const Contact = () => {
                   {errors.subject && <p className="text-destructive text-xs mt-1.5">{errors.subject.message}</p>}
                 </div>
 
+                {/* Message */}
                 <div>
                   <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Message</label>
                   <Textarea
                     placeholder="Tell me about your project, idea, or question…"
-                    rows={6}
+                    rows={5}
                     {...register('message')}
                     className={textareaClass(!!errors.message)}
                   />

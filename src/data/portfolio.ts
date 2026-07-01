@@ -116,38 +116,43 @@ export const services = [
 
 export const timeline = [
   {
-    year: "2025",
-    title: "Aspiring Full Stack & Security Engineer",
-    company: "Self-Driven Projects & Research",
-    description: "Building modern, secure web platforms using React, TypeScript, Node.js, and cybersecurity best practices. Focused on performance, privacy, and scalable system design."
-  },
-
-  {
-    year: "2025",
-    title: "Cyber Crime Investigator Intern",
-    company: "Defronix Cyber Crime Investigation",
-    description: "Worked on real-world cyber crime investigation scenarios including digital evidence analysis, online fraud awareness, cyber laws fundamentals, and incident reporting workflows."
-  },
-
-  {
-    year: "2024",
-    title: "Frontend Developer Intern",
-    company: "Rajeev Gandhi Computer Saksharta Mission",
-    description: "Developed responsive and accessible user interfaces using React, Tailwind CSS, and JavaScript. Improved UI consistency, performance, and user experience across multiple modules."
+    year: "May 2025 – June 2026",
+    title: "Full Stack Developer",
+    company: "Morpheme Webnexus Pvt Ltd",
+    location: "Noida, Uttar Pradesh",
+    description: [
+      "Architected and delivered scalable full-stack web applications using React.js, Node.js, Express, and MongoDB, ensuring robust end-to-end performance.",
+      "Designed secure RESTful APIs, integrated authentication protocols (JWT/OAuth), and optimized database query execution times by 25%.",
+      "Collaborated with UI/UX designers and backend teams to implement responsive user interfaces, utilizing Tailwind CSS for optimal mobile-first styling.",
+      "Participated in agile workflows, executing unit tests, code reviews, and automating deployment scripts to maintain high code reliability."
+    ]
   },
   {
-    year: "2023-2026",
-    title: "B.Tech in Cybersecurity",
-    company: "IBM Collaboration Program",
+    year: "Oct. 2024 – Apr. 2025",
+    title: "Frontend Developer",
+    company: "Ninepages Techsolutions Pvt Ltd",
+    location: "Agra, Uttar Pradesh",
+    description: [
+      "Developed and maintained responsive, user-friendly web applications using React.js and Next.js, ensuring seamless functionality across multiple browsers and devices.",
+      "Collaborated with designers, backend developers, and stakeholders to implement intuitive user interfaces, optimize application performance, and deliver high-quality user experiences.",
+      "Built reusable UI components, enhanced website responsiveness, resolved frontend issues, and ensured cross-browser compatibility while following best practices for clean, scalable, and maintainable code.",
+      "Improved application usability, accessibility, and performance through continuous testing, debugging, and optimization, resulting in smooth and error-free user interactions."
+    ]
+  },
+  {
+    year: "Aug. 2023 – June 2026",
+    title: "B.Tech in Cybersecurity (IBM)",
+    company: "Lamrin Tech Skills University",
+    location: "Ropar, Punjab",
     description: "Completed B.Tech with specialization in Cybersecurity. Gained hands-on exposure to network security, web application security, ethical hacking concepts, and secure architecture principles."
   },
   {
-    year: "2023",
+    year: "Graduated July 2022",
     title: "Diploma in Computer Science",
-    company: "Technical Education Program",
+    company: "Eshan College of Engineering",
+    location: "Agra, Uttar Pradesh",
     description: "Completed a diploma covering programming fundamentals, computer networks, databases, operating systems, and basic software development practices."
   }
-
 ];
 
 export const testimonials = [

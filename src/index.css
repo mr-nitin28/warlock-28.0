@@ -42,8 +42,11 @@
     --page-foreground: #35090c;
     --grid-line-color: rgba(215, 38, 61, 0.28);
     --grid-line-strong: rgba(215, 38, 61, 0.45);
-    --surface-glow: rgba(255, 139, 139, 0.2);
-    --surface-tint: rgba(194, 24, 46, 0.08);
+    --surface-glow: rgba(255, 192, 210, 0.22);  /* top-left  : soft blush pink  */
+    --ambient-tr:   rgba(148, 224, 174, 0.18);  /* top-right : mint green       */
+    --ambient-br:   rgba(110, 196, 242, 0.20);  /* bottom-right: soft sky blue  */
+    --ambient-bl:   rgba(148, 224, 174, 0.15);  /* bottom-left: mint green      */
+    --surface-tint: rgba(180, 100, 120, 0.05);
 
     --gradient-primary: linear-gradient(140deg, #ff8a7a 0%, #d7263d 100%);
     --gradient-secondary: linear-gradient(140deg, #ffd362 0%, #ff5f45 100%);
@@ -90,7 +93,10 @@
     --page-foreground: #ffeaea;
     --grid-line-color: rgba(255, 105, 105, 0.18);
     --grid-line-strong: rgba(255, 105, 105, 0.35);
-    --surface-glow: rgba(255, 111, 111, 0.28);
+    --surface-glow: rgba(255, 165, 178, 0.28);  /* top-left  : soft blush pink   */
+    --ambient-tr:   rgba(255, 145, 145, 0.10);  /* top-right : faint warm pink   */
+    --ambient-br:   rgba(255, 115, 92,  0.24);  /* bottom-right: warm salmon     */
+    --ambient-bl:   rgba(255, 145, 145, 0.08);  /* bottom-left: faint warm pink  */
     --surface-tint: rgba(0, 0, 0, 0.4);
 
     --gradient-primary: linear-gradient(140deg, #ff6b6b 0%, #d7263d 100%);
@@ -150,7 +156,7 @@
     font-style: normal;
   }
 
-  /* Subtle Ambient Glow */
+  /* Premium 4-corner ambient glow — light mode only */
   body::before {
     content: '';
     position: fixed;
@@ -160,10 +166,17 @@
     height: 100%;
     z-index: -2;
     background:
-      radial-gradient(circle at 20% 25%, var(--surface-glow) 0%, transparent 45%),
-      radial-gradient(circle at 80% 70%, rgba(60, 182, 255, 0.18) 0%, transparent 45%),
-      radial-gradient(circle at 50% 50%, rgba(255, 143, 112, 0.12) 0%, transparent 55%);
-    opacity: 0.75;
+      radial-gradient(ellipse at 14% 16%, var(--surface-glow) 0%, transparent 48%),
+      radial-gradient(ellipse at 86% 84%, var(--ambient-br)   0%, transparent 48%),
+      radial-gradient(ellipse at 86% 16%, var(--ambient-tr)   0%, transparent 44%),
+      radial-gradient(ellipse at 14% 84%, var(--ambient-bl)   0%, transparent 44%);
+    opacity: 0.88;
+  }
+
+  /* Dark mode — clean flat background, no gradient overlay */
+  .dark body::before {
+    background: none;
+    opacity: 0;
   }
 }
 

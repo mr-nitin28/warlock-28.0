@@ -200,10 +200,25 @@ const About = () => {
                 {/* Content - Simple Hover */}
                 <div className={`ml-12 sm:ml-16 md:ml-0 md:w-5/12 ${index % 2 === 0 ? 'md:mr-8' : 'md:ml-8'}`}>
                   <div className="glassmorphism rounded-lg p-4 sm:p-6 border border-white/10 hover:border-primary/30 transition-colors duration-300 cursor-pointer">
-                    <div className="text-primary font-bold text-base sm:text-lg mb-1 sm:mb-2">{item.year}</div>
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-1 sm:mb-2">
+                      <span className="text-primary font-bold text-base sm:text-lg">{item.year}</span>
+                      {item.location && (
+                        <span className="text-xs text-muted-foreground flex items-center gap-1">
+                          <MapPin className="w-3.5 h-3.5 text-primary" /> {item.location}
+                        </span>
+                      )}
+                    </div>
                     <h4 className="text-lg sm:text-xl font-semibold mb-1">{item.title}</h4>
                     <p className="text-primary/80 font-medium mb-1 sm:mb-2 text-sm sm:text-base">{item.company}</p>
-                    <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">{item.description}</p>
+                    {Array.isArray(item.description) ? (
+                      <ul className="list-disc pl-4 space-y-1.5 text-muted-foreground text-sm sm:text-base leading-relaxed mt-2">
+                        {item.description.map((bullet, idx) => (
+                          <li key={idx} className="hover:text-foreground transition-colors duration-200">{bullet}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">{item.description}</p>
+                    )}
                   </div>
                 </div>
               </motion.div>
