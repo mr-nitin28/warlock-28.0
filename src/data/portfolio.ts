@@ -140,14 +140,14 @@ export const timeline = [
     ]
   },
   {
-    year: "Aug. 2023 – June 2026",
+    year: "",
     title: "B.Tech in Cybersecurity (IBM)",
     company: "Lamrin Tech Skills University",
     location: "Ropar, Punjab",
     description: "Completed B.Tech with specialization in Cybersecurity. Gained hands-on exposure to network security, web application security, ethical hacking concepts, and secure architecture principles."
   },
   {
-    year: "Graduated July 2022",
+    year: "",
     title: "Diploma in Computer Science",
     company: "Eshan College of Engineering",
     location: "Agra, Uttar Pradesh",
